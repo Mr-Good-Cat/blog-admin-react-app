@@ -9,3 +9,7 @@ export const pageListUrl = (parentPageId) => {
 
   return `/page/list/:parentPageId?`;
 };
+
+export const pageCreateUrl = () => "/page/create";
+export const pageUpdateUrl = (id) =>
+  !!id ? `/page/update/${id}` : "/page/update/:id";
