@@ -1,12 +1,14 @@
-function Dropdown() {
+function Dropdown({ label, options }) {
   return (
     <div>
-      <label className="mb-3 block text-black">Select Country</label>
+      <label className="mb-3 block text-black">{label}</label>
       <div className="relative z-20 bg-white">
         <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary">
-          <option value="">USA</option>
-          <option value="">UK</option>
-          <option value="">Canada</option>
+          {options.map((o) => (
+            <option key={o.id} value={o.value}>
+              {o.title}
+            </option>
+          ))}
         </select>
         <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
           <svg
