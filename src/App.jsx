@@ -1,10 +1,24 @@
-import logo from './logo.svg';
+import React, { Suspense } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { homePageUrl } from "./helpers/url";
+import LazyPageLoader from "./components/commons/LazyPageLoader";
+
+const MainLayout = React.lazy(() => import("./components/layouts/MainLayout"));
+const HomePage = React.lazy(() => import("./components/pages/HomePage"));
+
+const router = createBrowserRouter([
+  {
+    path: homePageUrl(),
+    element: <MainLayout />,
+    children: [{ index: true, element: <HomePage /> }],
+  },
+]);
 
 function App() {
   return (
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+    <Suspense fallback={<LazyPageLoader />}>
+      <RouterProvider router={router} />
+    </Suspense>
   );
 }
 
