@@ -2,11 +2,11 @@ import PageListItem from "./PageListItem";
 import Breadcrumbs from "./Breadcrumbs";
 import PageListHeader from "./PageListHeader";
 
-function PageList({ pages, ancestors }) {
+function PageListContent({ pages, ancestors, parentPageId }) {
   return (
     <div className="bg-white p-8">
       <div className="border-b mb-4 pb-2">
-        <PageListHeader />
+        <PageListHeader parentPageId={parentPageId} />
 
         <Breadcrumbs ancestors={ancestors} />
       </div>
@@ -18,4 +18,4 @@ function PageList({ pages, ancestors }) {
   );
 }
 
-export default PageList;
+export default PageListContent;
