@@ -19,7 +19,7 @@ const PAGE_TYPE_OPTIONS = Object.entries(PAGE_TYPE).map(([key, value]) => {
 const TYPING = "TYPING";
 const SUBMITTING = "SUBMITTING";
 
-function PageCreateForm() {
+function PageCreateForm({ parentPageId }) {
   let navigate = useNavigate();
   const [status, setStatus] = useState(TYPING);
   const [validationErrorList, updateValidationErrorList] = useImmer([]);
@@ -54,9 +54,17 @@ function PageCreateForm() {
 
     const client = new ApiClient();
     client
-      .createPage(page)
+      .createPage(page, parentPageId)
       .then((createdPage) => {
-        navigate(pageListUrl(createdPage.id));
+        const parentPageIdList = createdPage.path.split(".");
+        const parentPageId =
+          parentPageIdList.length > 1
+            ? parentPageIdList[parentPageIdList.length - 2]
+            : null;
+
+        console.log(parentPageIdList);
+
+        navigate(pageListUrl(parentPageId));
       })
       .catch((reason) =>
         updateValidationErrorList(reason.response.data.message),

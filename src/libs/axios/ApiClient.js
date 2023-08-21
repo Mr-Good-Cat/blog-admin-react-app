@@ -27,7 +27,12 @@ export class ApiClient {
     });
   }
 
-  createPage(page) {
-    return this.#client.post("/page/create", page);
+  createPage(page, parentPageId) {
+    const data = { ...page };
+    if (!!parentPageId) {
+      data.parentPageId = parseInt(parentPageId, 10);
+    }
+
+    return this.#client.post("/page/create", data);
   }
 }
