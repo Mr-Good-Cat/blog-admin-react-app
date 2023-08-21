@@ -1,4 +1,12 @@
-function Dropdown({ label, options, name, onChange, value, disabled }) {
+function Dropdown({
+  label,
+  options,
+  name,
+  onChange,
+  value,
+  disabled,
+  errorList,
+}) {
   return (
     <div>
       <label className="mb-3 block text-black">{label}</label>
@@ -16,6 +24,7 @@ function Dropdown({ label, options, name, onChange, value, disabled }) {
             </option>
           ))}
         </select>
+
         <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
           <svg
             width="24"
@@ -35,8 +44,18 @@ function Dropdown({ label, options, name, onChange, value, disabled }) {
           </svg>
         </span>
       </div>
+
+      <ul className="text-red-600">
+        {errorList.map((e) => (
+          <li key={e}> - {e}</li>
+        ))}
+      </ul>
     </div>
   );
 }
+
+Dropdown.defaultProps = {
+  errorList: [],
+};
 
 export default Dropdown;

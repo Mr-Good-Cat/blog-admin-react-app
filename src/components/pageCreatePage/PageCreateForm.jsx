@@ -102,6 +102,7 @@ function PageCreateForm() {
               label="Type"
               options={PAGE_TYPE_OPTIONS}
               disabled={isDisabled}
+              errorList={getErrors("type")}
             />
           </div>
         </div>

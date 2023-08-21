@@ -21,6 +21,12 @@ function Textarea({
           errorList.length ? "border-red-600" : ""
         }`}
       ></textarea>
+
+      <ul className="text-red-600">
+        {errorList.map((e) => (
+          <li key={e}> - {e}</li>
+        ))}
+      </ul>
     </div>
   );
 }
