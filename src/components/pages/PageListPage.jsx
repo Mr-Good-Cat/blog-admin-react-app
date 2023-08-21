@@ -1,4 +1,4 @@
-import PageList from "../pageListPage/PageList";
+import PageListContent from "../pageListPage/PageListContent";
 import { useEffect, useState } from "react";
 import { ApiClient } from "../../libs/axios/ApiClient";
 import UniversalLoader from "../commons/UniversalLoader";
@@ -38,7 +38,11 @@ function PageListPage() {
   return pages === null ? (
     <UniversalLoader />
   ) : (
-    <PageList ancestors={ancestors} pages={pages} />
+    <PageListContent
+      parentPageId={parentPageId}
+      ancestors={ancestors}
+      pages={pages}
+    />
   );
 }
 

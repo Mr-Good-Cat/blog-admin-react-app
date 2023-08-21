@@ -1,15 +1,18 @@
 export const homePageUrl = () => "/";
 
-export const pageListUrl = (parentPageId) => {
-  if (!!parentPageId) {
-    return `/page/list/${parentPageId}`;
-  } else if (parentPageId === null) {
-    return `/page/list/`;
-  }
-
-  return `/page/list/:parentPageId?`;
-};
-
-export const pageCreateUrl = () => "/page/create";
+export const pageListUrl = (parentPageId) =>
+  withOptionalParam("/page/list/", "parentPageId")(parentPageId);
+export const pageCreateUrl = (parentPageId) =>
+  withOptionalParam("/page/create/", "parentPageId")(parentPageId);
 export const pageUpdateUrl = (id) =>
   !!id ? `/page/update/${id}` : "/page/update/:id";
+
+const withOptionalParam = (url, optionalParamName) => (param) => {
+  if (!!param) {
+    return `${url}${param}`;
+  } else if (param === null) {
+    return url;
+  }
+
+  return `${url}:${optionalParamName}?`;
+};
