@@ -1,8 +1,17 @@
-function Input({ label, placeholder, value, onInput, name, errorList }) {
+function Input({
+  label,
+  placeholder,
+  value,
+  onInput,
+  name,
+  errorList,
+  disabled,
+}) {
   return (
     <div>
       <label className="mb-3 block text-black">{label}</label>
       <input
+        disabled={disabled}
         type="text"
         value={value}
         onInput={onInput}
@@ -15,7 +24,7 @@ function Input({ label, placeholder, value, onInput, name, errorList }) {
 
       <ul className="text-red-600">
         {errorList.map((e) => (
-          <li> - {e}</li>
+          <li key={e}> - {e}</li>
         ))}
       </ul>
     </div>
