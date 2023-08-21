@@ -1,9 +1,14 @@
-function Dropdown({ label, options }) {
+function Dropdown({ label, options, name, onChange, value }) {
   return (
     <div>
       <label className="mb-3 block text-black">{label}</label>
       <div className="relative z-20 bg-white">
-        <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary">
+        <select
+          value={value}
+          name={name}
+          onChange={onChange}
+          className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary"
+        >
           {options.map((o) => (
             <option key={o.id} value={o.value}>
               {o.title}
