@@ -26,4 +26,8 @@ export class ApiClient {
       signal: this.#client.createSignal("getAncestors"),
     });
   }
+
+  createPage(page) {
+    return this.#client.post("/page/create", page);
+  }
 }
