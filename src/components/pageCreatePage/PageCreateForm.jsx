@@ -4,6 +4,9 @@ import Textarea from "../commons/Textarea";
 import { useImmer } from "use-immer";
 import { PAGE_TYPE } from "../../helpers/page.entity";
 import { ApiClient } from "../../libs/axios/ApiClient";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { pageListUrl } from "../../helpers/url";
 
 const PAGE_TYPE_OPTIONS = Object.entries(PAGE_TYPE).map(([key, value]) => {
   return {
@@ -13,7 +16,12 @@ const PAGE_TYPE_OPTIONS = Object.entries(PAGE_TYPE).map(([key, value]) => {
   };
 });
 
+const TYPING = "TYPING";
+const SUBMITTING = "SUBMITTING";
+
 function PageCreateForm() {
+  let navigate = useNavigate();
+  const [status, setStatus] = useState(TYPING);
   const [validationErrorList, updateValidationErrorList] = useImmer([]);
   const [page, updatePage] = useImmer({
     title: "",
@@ -31,24 +39,35 @@ function PageCreateForm() {
     });
 
     updateValidationErrorList((draft) =>
-      draft.filter((ve) => ve.field !== e.target.name),
+      draft.filter((vE) => vE.field !== e.target.name),
     );
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
+    if (status === SUBMITTING) {
+      return;
+    }
+
+    setStatus(SUBMITTING);
+
     const client = new ApiClient();
     client
       .createPage(page)
-      .then(console.log)
+      .then((createdPage) => {
+        navigate(pageListUrl(createdPage.id));
+      })
       .catch((reason) =>
         updateValidationErrorList(reason.response.data.message),
-      );
+      )
+      .finally(() => setStatus(TYPING));
   };
 
   const getErrors = (field) =>
-    validationErrorList.find((ve) => ve.field === field)?.errors;
+    validationErrorList.find((vE) => vE.field === field)?.errors;
+
+  const isDisabled = status === SUBMITTING;
 
   return (
     <form onSubmit={onSubmit}>
@@ -60,6 +79,7 @@ function PageCreateForm() {
             onInput={onChange}
             name="title"
             errorList={getErrors("title")}
+            disabled={isDisabled}
           />
         </div>
         <div className="lg:flex lg:justify-between lg:w-2/5">
@@ -70,6 +90,7 @@ function PageCreateForm() {
               onInput={onChange}
               name="order"
               errorList={getErrors("order")}
+              disabled={isDisabled}
             />
           </div>
 
@@ -80,6 +101,7 @@ function PageCreateForm() {
               onChange={onChange}
               label="Type"
               options={PAGE_TYPE_OPTIONS}
+              disabled={isDisabled}
             />
           </div>
         </div>
@@ -93,6 +115,7 @@ function PageCreateForm() {
             onInput={onChange}
             name="slug"
             errorList={getErrors("slug")}
+            disabled={isDisabled}
           />
         </div>
 
@@ -104,6 +127,7 @@ function PageCreateForm() {
               onInput={onChange}
               name="seoTitle"
               errorList={getErrors("seoTitle")}
+              disabled={isDisabled}
             />
           </div>
           <div className="mb-2">
@@ -113,6 +137,7 @@ function PageCreateForm() {
               onInput={onChange}
               name="seoDescription"
               errorList={getErrors("seoDescription")}
+              disabled={isDisabled}
             />
           </div>
         </div>
@@ -125,14 +150,16 @@ function PageCreateForm() {
           onInput={onChange}
           name="description"
           errorList={getErrors("description")}
+          disabled={isDisabled}
         />
       </div>
 
       <button
         type="submit"
-        className="w-full border py-1 px-3 rounded-full border-green-600 text-green-600 hover:text-white hover:bg-green-600"
+        disabled={isDisabled}
+        className="w-full border py-1 px-3 rounded-full border-green-600 text-green-600 hover:text-white hover:bg-green-600 disabled:border-gray-400 disabled:bg-gray-50 disabled:text-black"
       >
-        Create
+        {isDisabled ? "Processing..." : "Create"}
       </button>
     </form>
   );

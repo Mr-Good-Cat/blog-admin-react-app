@@ -1,8 +1,17 @@
-function Textarea({ label, placeholder, value, onInput, name, errorList }) {
+function Textarea({
+  label,
+  placeholder,
+  value,
+  onInput,
+  name,
+  errorList,
+  disabled,
+}) {
   return (
     <div>
       <label className="mb-3 block text-black">{label}</label>
       <textarea
+        disabled={disabled}
         rows={6}
         value={value}
         onInput={onInput}
