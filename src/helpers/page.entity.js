@@ -17,3 +17,15 @@ export const PAGE_STATUS = {
   [PAGE_STATUS_PUBLISHED]: PAGE_STATUS_PUBLISHED,
   [PAGE_STATUS_DELETED]: PAGE_STATUS_DELETED,
 };
+
+export const pageCreateDto = (type) => {
+  return {
+    title: "",
+    order: "0",
+    slug: "",
+    seoTitle: "",
+    seoDescription: "",
+    description: "",
+    type: type,
+  };
+};

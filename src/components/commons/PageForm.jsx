@@ -2,7 +2,11 @@ import Input from "../commons/Input";
 import Dropdown from "../commons/Dropdown";
 import Textarea from "../commons/Textarea";
 import { useImmer } from "use-immer";
-import { PAGE_TYPE } from "../../helpers/page.entity";
+import {
+  PAGE_STATUS,
+  PAGE_TYPE,
+  pageCreateDto,
+} from "../../helpers/page.entity";
 import { ApiClient } from "../../libs/axios/ApiClient";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,26 +19,51 @@ const PAGE_TYPE_OPTIONS = Object.entries(PAGE_TYPE).map(([key, value]) => {
     title: value,
   };
 });
+const PAGE_STATUS_OPTIONS = Object.entries(PAGE_STATUS).map(([key, value]) => {
+  return {
+    id: value,
+    value: key,
+    title: value,
+  };
+});
 
 const TYPING = "TYPING";
 const SUBMITTING = "SUBMITTING";
 
-function PageCreateForm({ parentPageId }) {
+export const VIEW_TYPE_CREATE = "create";
+export const VIEW_TYPE_UPDATE = "update";
+
+const TYPE_VARIABLES = {
+  [VIEW_TYPE_CREATE]: {
+    dropdown: {
+      prop: "type",
+      title: "Type",
+      options: PAGE_TYPE_OPTIONS,
+    },
+    apiMethod: "createPage",
+  },
+  [VIEW_TYPE_UPDATE]: {
+    dropdown: {
+      prop: "status",
+      title: "status",
+      options: PAGE_STATUS_OPTIONS,
+    },
+    apiMethod: "updatePage",
+  },
+};
+
+function PageForm({ page, parentPageId, view }) {
   let navigate = useNavigate();
   const [status, setStatus] = useState(TYPING);
   const [validationErrorList, updateValidationErrorList] = useImmer([]);
-  const [page, updatePage] = useImmer({
-    title: "",
-    order: "0",
-    slug: "",
-    seoTitle: "",
-    seoDescription: "",
-    description: "",
-    type: PAGE_TYPE_OPTIONS[0].value,
-  });
+  const [fields, updateFields] = useImmer(
+    view === VIEW_TYPE_CREATE
+      ? pageCreateDto(PAGE_TYPE_OPTIONS[0].value)
+      : { ...page },
+  );
 
   const onChange = (e) => {
-    updatePage((draft) => {
+    updateFields((draft) => {
       draft[e.target.name] = e.target.value;
     });
 
@@ -53,10 +82,9 @@ function PageCreateForm({ parentPageId }) {
     setStatus(SUBMITTING);
 
     const client = new ApiClient();
-    client
-      .createPage(page, parentPageId)
-      .then((createdPage) => {
-        const parentPageIdList = createdPage.path.split(".");
+    client[TYPE_VARIABLES[view].apiMethod](fields, parentPageId)
+      .then((response) => {
+        const parentPageIdList = response.path.split(".");
         const parentPageId =
           parentPageIdList.length > 1
             ? parentPageIdList[parentPageIdList.length - 2]
@@ -83,7 +111,7 @@ function PageCreateForm({ parentPageId }) {
         <div className="lg:w-2/5 mb-2">
           <Input
             label="Title"
-            value={page.title}
+            value={fields.title}
             onInput={onChange}
             name="title"
             errorList={getErrors("title")}
@@ -94,7 +122,7 @@ function PageCreateForm({ parentPageId }) {
           <div className="lg:w-1/3 mb-2">
             <Input
               label="Order"
-              value={page.order}
+              value={fields.order}
               onInput={onChange}
               name="order"
               errorList={getErrors("order")}
@@ -104,13 +132,13 @@ function PageCreateForm({ parentPageId }) {
 
           <div className="lg:w-2/5 mb-2">
             <Dropdown
-              name="type"
-              value={page.type}
+              name={TYPE_VARIABLES[view].dropdown.prop}
+              value={fields[TYPE_VARIABLES[view].dropdown.prop]}
               onChange={onChange}
-              label="Type"
-              options={PAGE_TYPE_OPTIONS}
+              label={TYPE_VARIABLES[view].dropdown.title}
+              options={TYPE_VARIABLES[view].dropdown.options}
               disabled={isDisabled}
-              errorList={getErrors("type")}
+              errorList={getErrors(TYPE_VARIABLES[view].dropdown.prop)}
             />
           </div>
         </div>
@@ -120,7 +148,7 @@ function PageCreateForm({ parentPageId }) {
         <div className="lg:w-2/5 mb-2">
           <Input
             label="Slug"
-            value={page.slug}
+            value={fields.slug}
             onInput={onChange}
             name="slug"
             errorList={getErrors("slug")}
@@ -132,7 +160,7 @@ function PageCreateForm({ parentPageId }) {
           <div className="mb-2">
             <Input
               label="Seo Title"
-              value={page.seoTitle}
+              value={fields.seoTitle}
               onInput={onChange}
               name="seoTitle"
               errorList={getErrors("seoTitle")}
@@ -142,7 +170,7 @@ function PageCreateForm({ parentPageId }) {
           <div className="mb-2">
             <Input
               label="Seo Description"
-              value={page.seoDescription}
+              value={fields.seoDescription}
               onInput={onChange}
               name="seoDescription"
               errorList={getErrors("seoDescription")}
@@ -155,7 +183,7 @@ function PageCreateForm({ parentPageId }) {
       <div className="mb-2">
         <Textarea
           label="Description"
-          value={page.description}
+          value={fields.description}
           onInput={onChange}
           name="description"
           errorList={getErrors("description")}
@@ -174,4 +202,4 @@ function PageCreateForm({ parentPageId }) {
   );
 }
 
-export default PageCreateForm;
+export default PageForm;
