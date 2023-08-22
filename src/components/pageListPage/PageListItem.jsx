@@ -13,6 +13,7 @@ function PageListItem({ page, index }) {
               ? pageUpdateUrl(page.id)
               : pageListUrl(page.id)
           }
+          className="font-semibold text-blue-600 underline"
         >
           {page.title}
         </Link>
