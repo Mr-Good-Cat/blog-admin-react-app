@@ -11,6 +11,7 @@ import { pageListUrl } from "../../helpers/url";
 import { ApiClient } from "../../libs/axios/ApiClient";
 import { useSignMessage } from "wagmi";
 import UniversalLoader from "../commons/UniversalLoader";
+import RequestStepButtons from "./RequestStepButtons";
 
 const _isLogin = (address) => {
   const accessToken = getAccessToken();
@@ -30,7 +31,7 @@ const _isLogin = (address) => {
 const SIGNATURE_REQUEST_STEP_REQUEST_ONE_TIME_PASS = "request_on_time_pass";
 const SIGNATURE_REQUEST_STEP_REQUEST_WAITING_SIGNATURE = "waiting_signature";
 const SIGNATURE_REQUEST_STEP_REQUEST_VALIDATE_SIGNATURE = "validate_signature";
-const SIGNATURE_REQUEST_STEP_REQUEST_ERROR = "error";
+export const SIGNATURE_REQUEST_STEP_REQUEST_ERROR = "error";
 
 function ConnectedWallet({ address }) {
   const navigate = useNavigate();
@@ -128,6 +129,11 @@ function ConnectedWallet({ address }) {
         {texts.header}
       </h2>
       <p className="text-gray-500 text-center">{texts.description}</p>
+
+      <RequestStepButtons
+        signatureRequestStep={signatureRequestStep}
+        retryHandler={() => requestJWT(address)}
+      />
     </div>
   );
 }
