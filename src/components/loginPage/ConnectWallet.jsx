@@ -6,8 +6,7 @@ const icons = {
 };
 
 function ConnectWallet() {
-  const { connect, connectors, error, isLoading, pendingConnector } =
-    useConnect();
+  const { connect, connectors, isLoading, pendingConnector } = useConnect();
 
   const getBtnTitle = (connector) => {
     if (!connector.ready) {

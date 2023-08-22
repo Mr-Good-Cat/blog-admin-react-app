@@ -3,7 +3,7 @@ import ConnectWallet from "../loginPage/ConnectWallet";
 import ConnectedWallet from "../loginPage/ConnectedWallet";
 
 function LoginPage() {
-  const { address, connector, isConnected } = useAccount();
+  const { address, isConnected } = useAccount();
 
   return isConnected ? (
     <ConnectedWallet address={address} />
