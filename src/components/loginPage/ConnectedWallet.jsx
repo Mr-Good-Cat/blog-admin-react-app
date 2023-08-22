@@ -71,7 +71,7 @@ function ConnectedWallet({ address }) {
         setRefreshToken(refreshToken);
         setIsLogin(true);
       })
-      .catch((e) => {
+      .catch(() => {
         setSignatureRequestStep(SIGNATURE_REQUEST_STEP_REQUEST_ERROR);
       });
 
