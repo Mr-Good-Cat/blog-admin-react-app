@@ -9,6 +9,7 @@ import {
 } from "./helpers/url";
 import LazyPageLoader from "./components/commons/LazyPageLoader";
 import RootProvider from "./propviders/RootProvider";
+import { ToastContainer } from "react-toastify";
 
 const MainLayout = React.lazy(() => import("./components/layouts/MainLayout"));
 const HomePage = React.lazy(() => import("./components/pages/HomePage"));
@@ -51,11 +52,26 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <RootProvider>
-      <Suspense fallback={<LazyPageLoader />}>
-        <RouterProvider router={router} />
-      </Suspense>
-    </RootProvider>
+    <>
+      <RootProvider>
+        <Suspense fallback={<LazyPageLoader />}>
+          <RouterProvider router={router} />
+        </Suspense>
+      </RootProvider>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+    </>
   );
 }
 
