@@ -2,18 +2,12 @@ import axios from "axios";
 import {
   getAccessToken,
   getRefreshToken,
-  removeAccessToken,
-  removeRefreshToken,
   setAccessToken,
   setRefreshToken,
 } from "../../helpers/storage";
 import { isCanceledRequest } from "./utils";
 import { loginPageUrl } from "../../helpers/url";
-
-const _disconnectHandle = () => {
-  removeAccessToken();
-  removeRefreshToken();
-};
+import { _disconnectHandle } from "../wagmi/useDisconnect";
 
 export class Client {
   #client;
