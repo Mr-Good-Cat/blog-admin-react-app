@@ -8,6 +8,7 @@ import {
   setRefreshToken,
 } from "../../helpers/storage";
 import { isCanceledRequest } from "./utils";
+import { loginPageUrl } from "../../helpers/url";
 
 const _disconnectHandle = () => {
   removeAccessToken();
@@ -50,11 +51,13 @@ export class Client {
           return;
         }
 
-        if (
-          !getRefreshToken() ||
-          error.response.status !== 401 ||
-          error.config.isRetry
-        ) {
+        if (!getRefreshToken()) {
+          _disconnectHandle();
+          window.location.href = loginPageUrl();
+          return;
+        }
+
+        if (error.response.status !== 401 || error.config.isRetry) {
           throw error;
         }
 
@@ -78,12 +81,8 @@ export class Client {
           setAccessToken(data?.accessToken);
           setRefreshToken(data?.refreshToken);
         } catch (e) {
-          const accessToken = getAccessToken();
           _disconnectHandle();
-          if (!!accessToken) {
-            window.location.reload();
-          }
-
+          window.location.href = loginPageUrl();
           return;
         }
 
