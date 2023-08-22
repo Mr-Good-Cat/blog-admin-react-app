@@ -41,6 +41,9 @@ const TYPE_VARIABLES = {
       options: PAGE_TYPE_OPTIONS,
     },
     apiMethod: "createPage",
+    button: {
+      title: "Create",
+    },
   },
   [VIEW_TYPE_UPDATE]: {
     dropdown: {
@@ -49,6 +52,9 @@ const TYPE_VARIABLES = {
       options: PAGE_STATUS_OPTIONS,
     },
     apiMethod: "updatePage",
+    button: {
+      title: "Update",
+    },
   },
 };
 
@@ -196,7 +202,7 @@ function PageForm({ page, parentPageId, view }) {
         disabled={isDisabled}
         className="w-full border py-1 px-3 rounded-full border-green-600 text-green-600 hover:text-white hover:bg-green-600 disabled:border-gray-400 disabled:bg-gray-50 disabled:text-black"
       >
-        {isDisabled ? "Processing..." : "Create"}
+        {isDisabled ? "Processing..." : TYPE_VARIABLES[view].button.title}
       </button>
     </form>
   );
