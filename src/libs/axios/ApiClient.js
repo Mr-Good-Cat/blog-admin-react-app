@@ -45,4 +45,23 @@ export class ApiClient {
       signal: this.#client.createSignal("getPage"),
     });
   }
+
+  signToken(wallet) {
+    const query = new URLSearchParams({
+      wallet,
+    });
+
+    return this.#client.get(`/auth/sign-token?${query}`, {
+      signal: this.#client.createSignal("signToken"),
+    });
+  }
+
+  signIn(wallet, signature) {
+    const query = new URLSearchParams({
+      wallet,
+      signature,
+    });
+
+    return this.#client.post(`/auth/signin?${query}`);
+  }
 }
