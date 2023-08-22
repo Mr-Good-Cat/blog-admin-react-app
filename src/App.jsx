@@ -7,6 +7,7 @@ import {
   pageUpdateUrl,
 } from "./helpers/url";
 import LazyPageLoader from "./components/commons/LazyPageLoader";
+import RootProvider from "./propviders/RootProvider";
 
 const MainLayout = React.lazy(() => import("./components/layouts/MainLayout"));
 const HomePage = React.lazy(() => import("./components/pages/HomePage"));
@@ -44,9 +45,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <Suspense fallback={<LazyPageLoader />}>
-      <RouterProvider router={router} />
-    </Suspense>
+    <RootProvider>
+      <Suspense fallback={<LazyPageLoader />}>
+        <RouterProvider router={router} />
+      </Suspense>
+    </RootProvider>
   );
 }
 
