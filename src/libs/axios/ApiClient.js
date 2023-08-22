@@ -35,4 +35,14 @@ export class ApiClient {
 
     return this.#client.post("/page/create", data);
   }
+
+  updatePage(page) {
+    return this.#client.post("/page/update", page);
+  }
+
+  getPage(id) {
+    return this.#client.get(`/page/${id}`, {
+      signal: this.#client.createSignal("getPage"),
+    });
+  }
 }

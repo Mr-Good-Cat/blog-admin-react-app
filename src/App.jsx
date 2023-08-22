@@ -1,6 +1,11 @@
 import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { homePageUrl, pageCreateUrl, pageListUrl } from "./helpers/url";
+import {
+  homePageUrl,
+  pageCreateUrl,
+  pageListUrl,
+  pageUpdateUrl,
+} from "./helpers/url";
 import LazyPageLoader from "./components/commons/LazyPageLoader";
 
 const MainLayout = React.lazy(() => import("./components/layouts/MainLayout"));
@@ -10,6 +15,9 @@ const PageListPage = React.lazy(() =>
 );
 const PageCreatePage = React.lazy(() =>
   import("./components/pages/PageCreatePage"),
+);
+const PageUpdatePage = React.lazy(() =>
+  import("./components/pages/PageUpdatePage"),
 );
 
 const router = createBrowserRouter([
@@ -25,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: pageCreateUrl(),
         element: <PageCreatePage />,
+      },
+      {
+        path: pageUpdateUrl(),
+        element: <PageUpdatePage />,
       },
     ],
   },
