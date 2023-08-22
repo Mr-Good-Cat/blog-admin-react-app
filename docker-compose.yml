@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  dg-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    dns:
+      - 8.8.8.8
+    ports:
+      - "8030:80"
