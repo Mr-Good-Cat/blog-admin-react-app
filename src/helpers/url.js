@@ -1,3 +1,5 @@
+export const loginPageUrl = () => "/login";
+
 export const homePageUrl = () => "/";
 
 export const pageListUrl = (parentPageId) =>

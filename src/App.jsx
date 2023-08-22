@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   homePageUrl,
+  loginPageUrl,
   pageCreateUrl,
   pageListUrl,
   pageUpdateUrl,
@@ -20,6 +21,7 @@ const PageCreatePage = React.lazy(() =>
 const PageUpdatePage = React.lazy(() =>
   import("./components/pages/PageUpdatePage"),
 );
+const LoginPage = React.lazy(() => import("./components/pages/LoginPage"));
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,10 @@ const router = createBrowserRouter([
         element: <PageUpdatePage />,
       },
     ],
+  },
+  {
+    path: loginPageUrl(),
+    element: <LoginPage />,
   },
 ]);
 
