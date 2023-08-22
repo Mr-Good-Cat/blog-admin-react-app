@@ -96,8 +96,6 @@ function PageForm({ page, parentPageId, view }) {
             ? parentPageIdList[parentPageIdList.length - 2]
             : null;
 
-        console.log(parentPageIdList);
-
         navigate(pageListUrl(parentPageId));
       })
       .catch((reason) =>
