@@ -11,8 +11,8 @@ function PageListContent({ pages, ancestors, parentPageId }) {
         <Breadcrumbs ancestors={ancestors} />
       </div>
 
-      {pages.map((p) => (
-        <PageListItem page={p} key={p.id} />
+      {pages.map((p, index) => (
+        <PageListItem index={index + 1} page={p} key={p.id} />
       ))}
     </div>
   );
