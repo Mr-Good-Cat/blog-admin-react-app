@@ -9,6 +9,14 @@ The application allows you to create/update categories and articles within them.
 The structure should be as follows: each article should lie within a category; 
 each category lies within the main category; the main category is the root; 
 
+You can use markdown to edit the article description:
+- \~paragraph\~
+- \*bold\*
+- \_italic\_
+- \*\_italicbold\_\*
+- \[title\](link)
+- \!\[iconLink\](iconAlt "iconTitle")
+
 To gain access, you must log in through the [metamask](https://metamask.io/) crypto wallet.
 
 ### Stack:
