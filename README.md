@@ -1,4 +1,4 @@
-# Crypto blog (backend)
+# Crypto blog (admin)
 One of three repositories to deploy a simple blog.
 
 ### Related repositories:
