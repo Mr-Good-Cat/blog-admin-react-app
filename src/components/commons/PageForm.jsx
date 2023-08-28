@@ -11,6 +11,7 @@ import { ApiClient } from "../../libs/axios/ApiClient";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { pageListUrl } from "../../helpers/url";
+import UserPageView from "./UserPageView";
 
 const PAGE_TYPE_OPTIONS = Object.entries(PAGE_TYPE).map(([key, value]) => {
   return {
@@ -194,6 +195,8 @@ function PageForm({ page, parentPageId, view }) {
           disabled={isDisabled}
         />
       </div>
+
+      <UserPageView title={fields.title} description={fields.description} />
 
       <button
         type="submit"
