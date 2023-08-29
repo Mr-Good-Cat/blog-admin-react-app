@@ -1,14 +1,15 @@
-FROM node:16-alpine AS build
+FROM node:16-alpine AS development
 
-WORKDIR /usr/src/app
+ENV NODE_ENV development
+
+WORKDIR /app
 
 COPY package.json package-lock.json ./
 RUN npm install --legacy-peer-deps
 
 COPY . .
 COPY ./.env.example ./.env
-RUN npm run build
 
-FROM nginx:1.23.4-alpine
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /usr/src/app/build /usr/share/nginx/html
+EXPOSE 3001
+
+CMD [ "npm", "start" ]

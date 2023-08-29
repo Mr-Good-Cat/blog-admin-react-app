@@ -26,4 +26,4 @@ To gain access, you must log in through the [metamask](https://metamask.io/) cry
 
 
 ## Instructions to run the project with Docker
-Command: `docker-compose up` and then visit `localhost:8030`
+Command: `docker-compose up` and then visit `localhost:3001`

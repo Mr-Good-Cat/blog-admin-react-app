@@ -1,9 +1,13 @@
-version: "3"
+version: "3.8"
 
 services:
-  blog-admin-react-app:
+  app:
+    container_name: app-dev
+    image: app-dev
     build:
       context: .
-      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ./src:/app/src
     ports:
-      - "3001:80"
+      - "3001:3000"
