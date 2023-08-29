@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  dg-ui:
+  blog-admin-react-app:
     build:
       context: .
       dockerfile: Dockerfile
